@@ -9,7 +9,7 @@ docker run -d --name mysql-con mysql-img;
 
 ## Esperar o serviço do MySQL iniciar (Demorei horas para perceber isso)
 echo Esperando 120 segundos para o serviço se iniciar.;
-## sleep 120s;
+sleep 120s;
 
 ## Pegar bash dentro do container
 echo 'Conseguindo a bash...\r\n'; 
