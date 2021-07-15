@@ -1,0 +1,22 @@
+O objetivo deste challenge é desenvolver uma aplicação que nos permita obter uma lista de
+IPs de redes Tor (https://www.torproject.org/) a partir de fontes externas, distintas e
+apresentá-los de maneira unificada. Adicionalmente esta aplicação deve possibilitar a
+indicação de IPs de redes que NÃO queremos que apareçam na lista.
+O objetivo é desenvolver uma API REST que tenha os métodos detalhados a seguir:
+1) Um endpoint GET que devolve todos os IPs de TOR obtidos das fontes externas
+detalhadas abaixo:
+● https://www.dan.me.uk/tornodes
+● https://onionoo.torproject.org/summary?limit=5000
+
+2) Um endpoint POST que receba um IP e o agregue à uma base de dados onde se
+encontram todos os IPs que não queremos que apareçam no output do endpoint 3
+(detalhado abaixo).
+3) Um endpoint GET que devolve os IPs obtidos das fontes externas EXCETO os que
+se encontram na base de dados (IPs carregados utilizando o endpoint 2)
+A base de dados a ser utilizada fica à sua escolha.
+A aplicação desenvolvida deve executar em um container de Docker.
+
+- Entregáveis:
+Documentação da aplicação
+Link do projeto no GitHub com instrução de uso
+Demonstração da aplicação
