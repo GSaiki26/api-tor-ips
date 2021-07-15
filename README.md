@@ -10,7 +10,7 @@ O objetivo deste projeto é a criação de uma Rest API que possua 3 endpoints:
 
 
 ## Tarefas:
-- [ ] Fazer a criação do Banco de Dados.
+- [x] Fazer a criação do Banco de Dados.
 
 - [ ] Colocar o MySQL dentro de um container Docker.
 
