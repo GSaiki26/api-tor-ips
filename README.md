@@ -12,17 +12,17 @@ O objetivo deste projeto é a criação de uma Rest API que possua 3 endpoints:
 ## Tarefas:
 - [x] Fazer a criação do Banco de Dados.
 
-- [ ] Colocar o MySQL dentro de um container Docker.
+- [x] Colocar o MySQL dentro de um container Docker.
 
 - [ ] Criar a conexão da API com o Banco de Dados.
 
-- [ ] Criar a base do site, com CSS interno.
-
-- [ ] EndPoint GET: Lista inteira de IPs.
+- [X] EndPoint GET: Lista inteira de IPs.
 
 - [ ] EndPoint POST: Banir IP.
 
 - [ ] Endpoint GET: Lista de IPs "censurada".
+
+- [ ] Criar a base do site, com CSS interno.
 
 - [ ] Fazer a comunicação do site com a API.
 
