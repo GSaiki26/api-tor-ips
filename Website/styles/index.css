@@ -1,0 +1,61 @@
+/* Html Tags */
+body {
+    /* Padding */
+    margin: 0px;
+    background: #e4e9ed;
+    font-size: larger;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1 {
+    color: #FE231D;
+}
+
+center {
+    text-align: center;
+}
+/* Ids*/
+#SideMenu-Bar {
+    position: relative;
+    padding: 10px 0px 10px 0px;
+    background-color: white;
+}
+
+#SideMenu-Item-Icon {
+    padding: 0px 0px 0px 20%;
+}
+
+#Menu-Main {
+    /* Padding */
+    position: relative;
+    margin: 15% 0px 0px 0px;
+    padding: 30px 10px 60px 20px;
+    width: 300px;
+    
+    /* Posição */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+
+    /* Texto */
+    background-color: white;
+
+    /* Bordas */
+    border: 2px solid black;
+    border-radius: 10px;
+} #Menu-Main label {
+    cursor: vertical-text;
+} #Menu-Main input[type = 'text'] {
+    /* Padding */
+    padding: 10px 0px 10px 0px;
+    /* Bordas */
+    border: 2px solid black;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.50s;
+} #Menu-Main input[type = 'text']:hover {
+    padding: 10px 15px 10px 15px;
+    text-decoration: none;
+    transition: 0.50s;
+}
+/* Classes*/

@@ -7,14 +7,19 @@ const { exit } = require('process'); // Importar essa lib para o fechamento da A
     // Variavel vai armezar as urls dos sites a serem 'lidos'.
 const url = ['https://www.dan.me.uk/torlist/','http://onionoo.torproject.org/summary?limit=5000']; 
 class API {
-    async Get_AllIPs() {
-        return await Get_AllIPs();
+    async Get_AllIPs() { // Função que será chamada no Server.js
+        return await Get_AllIPs(); // Chame a função NÃO LOCAL desse objeto.
     }
     async Get_IPs() {
         return null;
     }
-    async Ban_IP() {
-        return null;
+    async Ban_IP(ip) {
+        ip = '192.168.0.1';
+        if (ip.length < 33) {
+            const mySQL = require('mysql');
+        } else {
+            throw 'Ip no formato errado.';
+        }
     }
 }
 
@@ -28,16 +33,19 @@ async function Get_IPListFromDanMe(ip) { // Tratar os ip do site: https://www.da
     // Code
     try { // Caso haja erro durante a request.
         res = await axios.get(url[0]); // Faça a request para o site.
+        fs.writeFileSync('Danme.txt',threat);
     } catch (err){ 
-        // Retorne esta mensagem na lista de IPs e retorne ip.
-        if (ip.list.length == 0) {console.log('A lista de IPs do Site https://www.dan.me.uk/torlist/ nao esta baixada e foi limitada!'); return ip}
-        return ip; // Ele irá retornar IP pois já os ips já foram baixados para a maquina.
+        // Em caso de erro, leia o arquivo .txt
+        fs.readFileSync('Danme.txt','utf-8',(err,data)=> {
+            if (err) {console.log('A lista de IPs do Site https://www.dan.me.uk/torlist/ nao esta baixada e foi limitada!'); return ip}
+            res = data;
+        });
     }
     const threat = toString(res.data).split('\\n'); // De split na string retornada com cada Ip.
     for (let i = 0; i < threat;i++) {
         ip.list.push(['Name_Not_Defined',threat[i]]); // Loop para colocar todos os ips, na lista.
     }
-    fs.writeFile('ip.json', JSON.stringify(ip),err=> {console.log(`API erro no FileStream.${err}`); exit();}); // Em caso de erro na request, feche o programa.
+    fs.writeFile('ip.json', JSON.stringify(ip), err=> {console.log(`API erro no FileStream.${err}`); exit();}); // Em caso de erro na request, feche o programa.
     return ip; // Retorne Ip com a lista de IPs já escrito no arquivo!
 }
 
@@ -68,13 +76,6 @@ async function Get_AllIPs() {
     };
    
     //Code
-    fs.readFile('ip.json',(err,data) => { // Ler o arquivo ip.json
-        if (err) { // Tratamento de erro voltado para a checagem da existência do arquivo .json
-            fs.writeFile('ip.json',JSON.stringify(ip),error => {console.log(error);exit();}); // Crie o arquivo ip.json com a data atual.
-        } else {
-            ip = JSON.parse(data);
-        }
-    });
     ip = await Get_IPListFromDanMe(ip);
     ip = await Get_IPListFromOnionoo(ip);
     return ip;

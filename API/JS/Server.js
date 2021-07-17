@@ -5,7 +5,7 @@ const http = require('http'); // Faça a importação da lib para a criação do
 // Data - Divisão para guardar as váriaveis globais.
 const API = require('./Api.js'); // Importe a lib da API.
 const api = new API(); // Instancie a API.
-const port = 80; // Declarar a porta que o server irá abrir.
+const port = 2684; // Declarar a porta que o server irá abrir.
 
 // Functions - Divisão voltada às funções.
 
@@ -29,16 +29,16 @@ http.createServer((req, res) => {
         api.Get_IPs().then(ip => { // Promise da API para conseguir a lista de IPs censurada.
             res.statusCode = 200; res.write(ip); res.end(); // Retorne o response ao Client caso dê certo.
             console.log('A conexão foi retornada com Status Code: 200!\n');
-        }).catch(err=> {
-            res.statusCode = 500; res.write('Erro interno no servidor.'); res.end(); // Retorne o response com código 500 (Internal Server erro) ao Client.
+        }).catch(err=> {     //500
+            res.statusCode = 200; res.write('Erro interno no servidor.'); res.end(); // Retorne o response com código 500 (Internal Server erro) ao Client.
             console.log(`A conexão foi retornada com Status Code: 500. Erro: ${err}\n`);
         });
     } else if (method == 'POST' && req.url == '/Ban_IP') {
         console.log(req.headers);
         api.Ban_IP().then(ip => { // Promise da API para o banimento de um IP.
-            res.statusCode = 202; res.write('O IP foi banido com sucesso.'); res.end(); // Retorne o response com código 202 (Accepted) ao Client.
-        }).catch(err => {
-            res.statusCode = 400; res.write('Formato da request incorreta');// Retorne o response com código 202 (Bad Request) ao Client.
+            res.statusCode = 200; res.write('O IP foi banido com sucesso.'); res.end(); // Retorne o response com código 202 (Accepted) ao Client.
+        }).catch(err => {    //202 e 400
+            res.statusCode = 200; res.write('Formato da request incorreta');// Retorne o response com código 202 (Bad Request) ao Client.
         });
     }
     else { // Caso a url não exista na API, retorne erro.
