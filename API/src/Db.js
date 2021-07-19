@@ -13,7 +13,7 @@ class Db { // Classe que será retornada ao require.
                 console.log(`A querry ${querry} foi executada com sucesso!`);
                 code = 202;
             } catch (err) { // Em caso de erro, escreva o erro no console, e retorne 500;
-                if (err.toString().indexOf('Duplicate entry') != -1) {
+                if (err.toString().indexOf('Duplicate entry') != -1) { // Caso seja encontrado este trecho do erro, o ip já foi adicionado.
                     console.log('O ip informado já foi adicionado!');
                     code = 406;
                 } else {
