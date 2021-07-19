@@ -21,7 +21,7 @@ router.get('/Get_AllIPs',(req,res) => { // Caso a request tenha este caminho, ex
     api.Get_AllIPs().then(ip => { // Promise da API para conseguir todos os IPs.
         ReturnRes(res,200,ip); // Retorne para o client o response com código 200.
     }).catch((err) => { // Em caso de erro da Promise.
-        ReturnRes(res,500,'Erro interno no servidor.'); // Retorne para o client que o server crashou.
+        ReturnRes(res,500,'Erro interno no servidor.', err); // Retorne para o client que o server crashou.
         
     });
 });
@@ -29,9 +29,9 @@ router.get('/Get_AllIPs',(req,res) => { // Caso a request tenha este caminho, ex
 router.get('/Get_IPs',(req,res) => {
     console.log('Conexão POST estabelecida em: /Get_IPs');
     api.Get_IPs().then(ip => { // Promise da API para conseguir a lista de IPs censurada.
-        ReturnRes(res, 200, ip); // Retorne o response ao Client caso dê certo.
+        ReturnRes(res, ip[0], ip[1]); // Retorne o response ao Client caso dê certo.
     }).catch(err=> { // Em caso de erro da Promise.
-        ReturnRes(res, 500, 'Erro interno no servidor.');  // Retorne para o client que o server crashou.
+        ReturnRes(res, 500, 'Erro interno no servidor', err);  // Retorne para o client que o server crashou.
     });
 });
 
@@ -41,7 +41,9 @@ router.post('/Ban_IP',(req,res) => {
         api.Ban_IP(req.headers.ip).then(code => { // Promise da API para o banimento de um IP.
             if (code == 400) { // Retorne o response com código 400 (Bad Request) ao Client.
                 ReturnRes(res, 400, 'Formato da request incorreta.');
-            } else { // Retorne o response com código 202 (Accepted) ao Client.
+            } else if (code == 406) { // Retorne o responde com o código 406 (Not Acceptable) ao Client.
+                ReturnRes(res, 406, 'O Ip informado ja adicionado.');
+            }else { // Retorne o response com código 202 (Accepted) ao Client.
                 ReturnRes(res, 202, 'O IP foi banido com sucesso.');
             }
         }).catch(err => {

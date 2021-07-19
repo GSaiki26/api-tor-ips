@@ -1,6 +1,7 @@
 // Lib - Divisão para a definição de bibliotecas.
 const axios = require('axios'); // Importar axios para a utilização de requests.
 const fs = require('fs'); // Importar para utilizar na leitura e escrita de arquivos.
+const { Db_Execute } = require('./Db');
 const db = require('./Db'); // Importar a instância do db.
 
 // Data - Divisão para guardar as váriaveis globais.
@@ -12,7 +13,7 @@ class API {
         return await Get_AllIPs(); // Chame a função NÃO LOCAL desse objeto.
     }
     async Get_IPs() { 
-        return await Get_IPs() // Conseguir a lista de Ips censuradas.
+        return await Get_IPs(); // Conseguir a lista de Ips censuradas.
     }
     async Ban_IP(ip) { // Chame a função que será usada para fazer uma querry ao Db.
         const code = await Ban_IP(ip).catch(err => { // Em caso de erro, durante a promise:
@@ -24,16 +25,16 @@ class API {
 }
 // Functions - Divisão voltada às funções.
 async function Get_IPListFromDanMe(ip) { // Tratar os ip do site: https://www.dan.me.uk/torlist/
-    console.log('Iniciando Get_IPListFromDanMe().');
+    console.log('Iniciando Get_IPListFromDanMe()...');
     // Data
     let threat = ''; // Declaração para o uso dentro do escopo do try abaixo.
     // Code
-    res = await axios.get(url[0]).then(async res => { // Faça a request para o site.
-        console.log('Get_IPListFromDanMe(): Request deDanme Aceita com sucesso!');
+    await axios.get(url[0]).then(async res => { // Faça a request para o site.
+        console.log('Get_IPListFromDanMe(): Request do Danme Aceita com sucesso!');
         fs.writeFileSync('Danme.txt',res.data); // Escreva o conteudo do site em um json, para o uso quando a request for mal sucedida.
-        res = res.data.replace('\\n','\n'); // res ficará com o valor de data por culpa do salvamento de dados dentro de um arquivo.
+        threat = res.data.replace('\\n','\n'); // res ficará com o valor de data por culpa do salvamento de dados dentro de um arquivo.
     }).catch(async err => { // Em caso de erro, leia o arquivo .txt
-        console.log('Request de Danme Recusada! Lendo arquivo Danme.txt');
+        console.log('Request do Danme Recusada! Lendo arquivo Danme.txt');
         try {
             const res = await fs.readFileSync('./Danme.txt').toString(); // Leia o arquivo com os ips armazenados do site Danme.
             threat = res; // Defina threat como res, para o tratamento do dados abaixo.
@@ -50,7 +51,7 @@ async function Get_IPListFromDanMe(ip) { // Tratar os ip do site: https://www.da
 }
 
 async function Get_IPListFromOnionoo(ip) { // Tratar os ip do site: https://onionoo.torproject.org/summary?limit=5000
-    console.log('Iniciando Get_IPListFromOnionoo().');
+    console.log('Iniciando Get_IPListFromOnionoo()...');
     // Code
     try { // Caso haja erro durante a request.
         res = await axios.get(url[1]); // Fazer a request para o site de IPs 1.
@@ -66,7 +67,7 @@ async function Get_IPListFromOnionoo(ip) { // Tratar os ip do site: https://onio
 
 // Main Functions - Divisão voltada para os 3 Endpoints.
 async function Get_AllIPs() {
-    console.log('Iniciando get_ALLIps().');
+    console.log('Iniciando get_ALLIps()...');
     // Data
     let ip = { // Aqui será feito a checagem de 30 minutos para se fazer a request.
         'list':[
@@ -80,20 +81,43 @@ async function Get_AllIPs() {
     return ip;
 }
 
-async function Get_Ips() { // Função que retornará a lista de Ips censurada.
+async function Get_IPs() { // Função que retornará a lista de Ips censurada.
+    console.log('Iniciando Get_IPs()...');
+    //Data
+    let ip = await Get_AllIPs(); // Retorne a lista de todos os Ips para cá.
+    const querry = await Db_Execute('SELECT * FROM Banned_IPs'); // Consiga o output da querry executada.
 
+    // Code
+    if (querry[0][0] == undefined) { // Consiga a lista de Objetos que contem os Ips
+        console.log('Não existe qualquer IP banido! Retornando o resultado de Get_AllIPs()...');
+        return result;
+    } // Caso querry retorne valores:
+    ip.list.forEach((value,index) => { // Loop para cada elemento da Array.
+        querry[0][0].forEach(valueQuerry => { // Loop para cada Ip banido.
+            if (value[1][0] == valueQuerry.ip) { // Caso o primeiro valor seja igual o ip banido.
+                if (value[1].length == 2) {
+                    ip.list[index][1].splice(0,1);
+                    console.log(`O Ip ${valueQuerry.ip} de ${value} foi bloqueado!`);
+                } else {
+                    ip.list.splice(ip.list.indexOf(value),1);
+                    console.log(`O Ip ${valueQuerry.ip} de ${value} foi bloqueado!`);
+                }
+            }
+    });
+    });
+    return [200,ip];
 }
 
 async function Ban_IP(ip) { // Função que servirá para banir ip do site.
-    console.log(`Iniciando Ban_IP(ip:${ip}).`);
+    console.log(`Iniciando Ban_IP(ip:${ip})...`);
     // Data
-    let code = 202; // Variavel definida para se conseguir o código de retorno final.
+    let code; // Variavel definida para se conseguir o código de retorno final.
     // Code
     if (!(ip.length >= 11 && ip.length <= 16) || (ip.length == 40)) { // Essa é uma limitação da quantidade de caracteres do ip recebido.
         code = 400; return code;
     }
-    await db.Db_Execute(`INSERT INTO Banned_IPs VALUES (${ip});`).then(result=>{
-        code = result; // Result será o valor do status code.
+    await db.Db_Execute(`INSERT INTO Banned_IPs VALUES ('${ip}');`).then(result=>{
+        code = result[1]; // Result será o valor do status code.
     });
     return code;
 }

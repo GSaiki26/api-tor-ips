@@ -24,7 +24,7 @@ Para se iniciar a API, será necessário seguir os seguintes passos:
 
 1. Executar o arquivo ***Start.sh*** presente na pasta raiz do projeto ou utilizar o seguinte comando do docker-compose: ***docker-compose up;***; // Aqui será feito a inicialização dos containers.
 
-2. Esperar os serviços do container MySQL se inicializarem e executar o arquivo: ***SQL_ExecuteBasic.sh*** presente na pasta **./DB/** ou executar o comando: ***docker exec -i mysql-con mysql -uroot -pProof < SQL_BasicSyntax.sql;*** // Já aqui, o esquema padrão do banco de dados - ou seja, o database e o table que serão utilizados dentro da API - será salvo dentro do container.
+2. Esperar os serviços do container MySQL se inicializarem e executar o arquivo: ***Start_MySQL.sh*** presente na pasta raiz, ou executar o comando: ***docker exec -i mysql-con mysql -uroot -pProof < SQL_BasicSyntax.sql;*** // Já aqui, o esquema padrão do banco de dados - ou seja, o database e o table que serão utilizados dentro da API - será salvo dentro do container.
 
 
 ### Uso:
@@ -32,4 +32,4 @@ API/Get_AllIPs: Basta fazer uma requisição GET para este Endpoint que será re
 
 API/Get_IPs: Neste Endpoint GET, será retornado uma array "censurada", isto é, será apenas retornado uma array de Ips Tor que nãopossuem registros no Banco de Dados da API. Em caso de operação bem sucedida, retorna 200.
 
-API/Ban_IP: Por fim, temos o Endpoint POST, que para seu uso, será necessário fornecer o ip INDIVIDUALMENTE no Header da request com o simples nome de ip. Exemplo: '100.10.14.116'. Em caso de operação bem sucedida, retorne 202, enquanto para ip inválido, retorne 400.
+API/Ban_IP: Por fim, temos o Endpoint POST, que para seu uso, será necessário fornecer o ip INDIVIDUALMENTE no Header da request com o simples nome de ip. Exemplo: '100.10.14.116'. Em caso de operação bem sucedida, retorne 202, enquanto para ip inválido, retorne 406.
