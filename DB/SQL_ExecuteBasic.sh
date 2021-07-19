@@ -1,0 +1,1 @@
+docker exec -i mysql-con mysql -uroot -pProof < SQL_BasicSyntax.sql;

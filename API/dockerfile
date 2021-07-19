@@ -2,4 +2,4 @@ FROM node
 WORKDIR /home/node/API
 COPY . /home/node/API/
 RUN npm install
-CMD ["node", "/home/node/API/"]
+CMD ["npm", "start"]

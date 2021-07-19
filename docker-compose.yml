@@ -1,0 +1,25 @@
+version: '3.7'
+
+services: 
+    db:
+        image: mysql
+        container_name: mysql-con
+        restart: always
+        environment: 
+            MYSQL_ROOT_PASSWORD: Proof
+        ports: 
+            - '3306:3306'
+        command: --default-authentication-plugin=mysql_native_password
+        
+    api:
+        build: './API'
+        container_name: node-con
+        restart: always
+        depends_on:
+            - db
+        volumes:
+            - ./API:/home/node/API
+        ports:
+            - '2684:2684'
+        links:
+            - db
