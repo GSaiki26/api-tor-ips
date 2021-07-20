@@ -37,4 +37,4 @@ API/Get_AllIPs: Basta fazer uma requisição GET para este Endpoint que será re
 
 API/Get_IPs: Neste Endpoint GET, será retornado uma array "censurada", isto é, será apenas retornado uma array de Ips Tor que nãopossuem registros no Banco de Dados da API. Em caso de operação bem sucedida, retorna 200.
 
-API/Ban_IP: Por fim, temos o Endpoint POST, que para seu uso, será necessário fornecer o ip INDIVIDUALMENTE no Header da request com o simples nome de ip. Exemplo: '100.10.14.116'. Em caso de operação bem sucedida, retorne 202, enquanto para ip inválido, retorne 406.
+API/Ban_IP: Por fim, temos o Endpoint POST, que para seu uso, será necessário fornecer o ip INDIVIDUALMENTE no Header da request com o simples nome de ip. Exemplo: '100.10.14.116'. Em caso de operação bem sucedida, retorne 202, enquanto para ip inválido, retorne 406, e por ultimo em caso da API não encontrar o ip no header, retorne 400;
