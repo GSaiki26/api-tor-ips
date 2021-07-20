@@ -14,7 +14,7 @@ $result = curl_exec($curl);
     <body>
         <div id='SideMenu-Bar'>
             <div id='SideMenu-Item-Icon'>
-                <a href='http://Proof.com/'>
+                <a href='https://proof.com.br/'>
                     <img src='https://www.proof.com.br/wp-content/uploads/2018/12/PROOF_Site-Logo_SVG_Prancheta-1.svg' alt='Proof Logo' width='93' height='43'>
                 </a>
             </div>
