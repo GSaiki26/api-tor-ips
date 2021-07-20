@@ -18,7 +18,7 @@ Para conseguir iniciar o programa corretamente, será necessário ser feito a in
 
 * Docker-Compose;
 
-Apenas com a instalação destes dois programas, a instalação de outros serviços como o NodeJS, MySQL PHP, serão feitos dentro dos containers do Docker.
+Apenas com a instalação destes dois programas, a instalação de outros serviços como o NodeJS, MySQL e o PHP, serão feitos dentro dos containers do Docker.
 
 ### Inicialização:
 Para se iniciar a API, será necessário seguir os seguintes passos:
