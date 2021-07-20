@@ -4,6 +4,7 @@
         <title>Proof - API</title>
         <link rel='icon' href='./assets/Proof_Icon32x32.png' sizes='32x32'>
         <link rel='stylesheet' href="./styles/index.css"/>
+        <script type='text/javascript' src='scripts/index.js'></script>
     </head>
     <body>
         <div id='SideMenu-Bar'>
@@ -13,18 +14,17 @@
                 </a>
             </div>
         </div>
-        <div id='Menu-Main'>
-            <center>
+        <center>
+            <div id='Menu-Main'>
                 <h4>Proof API - Tor IPs</h4>
-                <form action= '<?php
-                ?>' method='POST'>
                     <label for='API_Ip'>Banir IP:</label><br>
-                    <input type='text' name='API_Ip' placeholder='192.168.100.1'><br>
-                    <input type='submit' name='submit' value='Enviar'>
-                </form>
-                <button>Mostrar todos os Ips.</button>
-                <button>Mostrar os ip.</button>
-            </center>
-        </div>
+                    <input type='text' id='Input_API_IP' placeholder='192.168.100.1'><br>
+                    <button class='API_Button' onclick='Ban_IP()'>Enviar</button><br>
+                <span id='API_BanResult'></span><br>
+                <button class='API_Button' onclick='Get_AllIPs()'>Mostrar todos os Ips</button>
+                <button class='API_Button' onclick='Get_IPs()'>Mostrar os ip</button>
+            </div>
+        <span id='API_IPsList'></span>
+        </center>
     </body>
 </html>

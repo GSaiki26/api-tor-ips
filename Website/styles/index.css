@@ -58,4 +58,16 @@ center {
     text-decoration: none;
     transition: 0.50s;
 }
-/* Classes*/
+    /* Classes */
+
+.API_Button {
+    height: 30px;
+    /* Bordas */
+    border: 2px solid black;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.50s;
+} .API_Button:hover {
+    height: 40px;
+    cursor: pointer;
+}
