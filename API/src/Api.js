@@ -32,7 +32,7 @@ async function Get_IPListFromDanMe(ip) { // Tratar os ip do site: https://www.da
     await axios.get(url[0]).then(async res => { // Faça a request para o site.
         console.log('Get_IPListFromDanMe(): Request do Danme Aceita com sucesso!');
         fs.writeFileSync('Danme.txt',res.data); // Escreva o conteudo do site em um json, para o uso quando a request for mal sucedida.
-        threat = res.data.replace('\\n','\n'); // res ficará com o valor de data por culpa do salvamento de dados dentro de um arquivo.
+        threat = await res.data.replace('\\n','\n'); // res ficará com o valor de data por culpa do salvamento de dados dentro de um arquivo.
     }).catch(async err => { // Em caso de erro, leia o arquivo .txt
         console.log('Request do Danme Recusada! Lendo arquivo Danme.txt');
         try {
@@ -52,13 +52,16 @@ async function Get_IPListFromDanMe(ip) { // Tratar os ip do site: https://www.da
 
 async function Get_IPListFromOnionoo(ip) { // Tratar os ip do site: https://onionoo.torproject.org/summary?limit=5000
     console.log('Iniciando Get_IPListFromOnionoo()...');
+    //Data
+    let threat; // // Declaração para o uso dentro do escopo do try abaixo.
     // Code
     try { // Caso haja erro durante a request.
-        res = await axios.get(url[1]); // Fazer a request para o site de IPs 1.
+        const res = await axios.get(url[1]); // Fazer a request para o site de IPs 1.
+        threat = await res.data.relays;
+        //threat = await JSON.parse(res.data).relays; // Threat agora é uma lista de Ip, nome do Ip e outras informações irrelevantes.
     } catch (err) { // Em caso de erro, imprima o erro.
         console.log(`API erro na request ao Onionoo. Erro: ${err}`);
     }
-    threat = res.data.relays; // Threat agora é uma lista de Ip, nome do Ip e outras informações irrelevantes.
     for (let i = 0; i < threat.length;i++) { // Um loop para cada elemento dentro da Array.
         ip.list.push([threat[i].n,threat[i].a]); //Coloque os dados necessário dentro do objeto ip.
     }
@@ -92,19 +95,34 @@ async function Get_IPs() { // Função que retornará a lista de Ips censurada.
         console.log('Não existe qualquer IP banido! Retornando o resultado de Get_AllIPs()...');
         return result;
     } // Caso querry retorne valores:
-    ip.list.forEach((value,index) => { // Loop para cada elemento da Array.
+    for (let i = 0; i < ip.list.length;i++) { // Loop para cada elemento da Array.
         querry[0][0].forEach(valueQuerry => { // Loop para cada Ip banido.
-            if (value[1][0] == valueQuerry.ip) { // Caso o primeiro valor seja igual o ip banido.
-                if (value[1].length == 2) {
-                    ip.list[index][1].splice(0,1);
-                    console.log(`O Ip ${valueQuerry.ip} de ${value} foi bloqueado!`);
-                } else {
-                    ip.list.splice(ip.list.indexOf(value),1);
-                    console.log(`O Ip ${valueQuerry.ip} de ${value} foi bloqueado!`);
-                }
+            let values;
+            if (ip.list[i][1].length == 2) {
+                values = [ip.list[i][1][0], ip.list[i][1][1]]; // Variavel que irá armazenar os Ips.
+            } else {
+                values = [ip.list[i][1][0]]
             }
-    });
-    });
+            // Checar primeiro IP
+            if (values[0] == valueQuerry.ip) { // Caso o primeiro valor seja igual o ip banido.
+                console.log(`O Ip ${valueQuerry.ip} de ${ip.list[i]} foi bloqueado!`);
+                ip.list[i][1].splice(0,1);
+                
+            } 
+            // Checar segundo IP.
+            if (values.length == 2) {
+                    if (values[1] == valueQuerry.ip) {
+                        console.log(`O Ip ${valueQuerry.ip} de ${ip.list[i]} foi bloqueado!`);
+                        ip.list[i][1].splice(1,1);
+                    }
+            } 
+            // Checar se não existe ip na lista.
+            if (ip.list[i][1].length == 0) {
+            console.log(`O Ip de ${ip.list[i]} foi removido da lista!`);
+            ip.list.splice(ip.list.indexOf(ip.list[i]),1); 
+            if (i != 0) {i--;}
+            }
+        })}
     return [200,ip];
 }
 
