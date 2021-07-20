@@ -8,10 +8,14 @@ const router = Router(); // Instancie router
 // Functions
 function ReturnRes(res, code, message, err='') {
     res.status(code).send(message); // Retorne o response ao Client.
-    if (code != 200 && code != 202) {
-        console.log(`A conexão foi retornada com Status Code: ${code}. Erro: ${err}\n`);
-    } else {
+    if (code == 200) {
         console.log(`A conexão foi retornada com Status Code: ${code}\n`);
+    } else if (code == 202) {
+        console.log(`A conexão foi retornada com Status Code: ${code}\n`);
+    } else if (code == 400) {
+        console.log(`A conexão foi retornada com Status Code: ${code}\n`);
+    } else {
+        console.log(`A conexão foi retornada com Status Code: ${code}. Erro: ${err}\n`);
     }
 }
 

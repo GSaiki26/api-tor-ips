@@ -19,6 +19,8 @@ services:
             - db
         volumes:
             - ./API:/home/node/API
+        ports:
+            - "2684:2684"
         links:
             - db
     web:

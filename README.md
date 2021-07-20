@@ -1,4 +1,5 @@
 # Rest API - Tor IPs list
+
 ## Descrição:
 Basicamente, o objetivo deste projeto é a criação de uma Rest API que possua 3 endpoints:
 
@@ -11,20 +12,22 @@ Basicamente, o objetivo deste projeto é a criação de uma Rest API que possua 
 ## Documentação:
 
 ### Requisitos:
-Para conseguir iniciar o programa corretamente, será preciso ser feito a instalação dos seguintes programas:
+Para conseguir iniciar o programa corretamente, será necessário ser feito a instalação dos seguintes programas:
 
 * Docker;
 
 * Docker-Compose;
 
-Apenas com a instalação destes dois programas, a instalação de outros serviços como o NodeJS e o MySQL, serão feitos dentro dos containers do Docker.
+Apenas com a instalação destes dois programas, a instalação de outros serviços como o NodeJS, MySQL PHP, serão feitos dentro dos containers do Docker.
 
 ### Inicialização:
 Para se iniciar a API, será necessário seguir os seguintes passos:
 
-1. Executar o arquivo ***Start.sh*** presente na pasta raiz do projeto ou utilizar o seguinte comando do docker-compose: ***docker-compose up;***; // Aqui será feito a inicialização dos containers.
+1. Executar o arquivo ***Start_Docker.sh*** presente na pasta raiz do projeto ou utilizar o seguinte comando do docker-compose:
+```docker-compose up; // Aqui será feito a inicialização dos containers.```
 
-2. Esperar os serviços do container MySQL se inicializarem e executar o arquivo: ***Start_MySQL.sh*** presente na pasta raiz, ou executar o comando: ***docker exec -i mysql-con mysql -uroot -pProof < SQL_BasicSyntax.sql;*** // Já aqui, o esquema padrão do banco de dados - ou seja, o database e o table que serão utilizados dentro da API - será salvo dentro do container.
+2. Esperar os serviços do container MySQL se inicializarem e executar o arquivo: ***Start_MySQL.sh*** presente na pasta raiz, ou executar o comando: 
+``` docker exec -i mysql-con mysql -uroot -pProof < SQL_BasicSyntax.sql;1 // Já aqui, o esquema padrão do banco de dados - ou seja, o database e o table que serão utilizados dentro da API - será salvo dentro do container. ```
 
 
 ### Uso:

@@ -1,10 +1,15 @@
+<?php
+$curl = curl_init('node-con:2684/Get_AllIPs');
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+$result = curl_exec($curl);
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Proof - API</title>
         <link rel='icon' href='./assets/Proof_Icon32x32.png' sizes='32x32'>
         <link rel='stylesheet' href="./styles/index.css"/>
-        <script type='text/javascript' src='./scripts/index.js'></script> 
+        <script type='text/javascript' src='./scripts/index.js'></script>  
     </head>
     <body>
         <div id='SideMenu-Bar'>
@@ -25,7 +30,9 @@
                 <button class='API_Button' onclick='Get_AllIPs()'>Mostrar todos os Ips</button>
                 <button class='API_Button' onclick='Get_IPs()'>Mostrar os ip</button>
             </div>
-        <span id='API_IPsList'></span>
+        <span id='API_IPsList'><?php
+        echo($result);
+        ?></span>
         </center>
     </body>
 </html>

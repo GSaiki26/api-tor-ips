@@ -1,10 +1,24 @@
+<?php
+if ($_POST['API_IP'] == '') {
+    $result = 'O IP não foi definido.';
+} else {
+    $ip = $_REQUEST['API_IP'];
+    $curl = curl_init('node-con:2684/Ban_Ip');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'ip'=>$ip
+    ));
+    $result = curl_exec($curl);
+}
+?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Proof - API</title>
         <link rel='icon' href='./assets/Proof_Icon32x32.png' sizes='32x32'>
         <link rel='stylesheet' href="./styles/index.css"/>
-        <script type='text/javascript' src='./scripts/index.js'></script> 
+        <script type='text/javascript' src='./scripts/index.js'></script>  
     </head>
     <body>
         <div id='SideMenu-Bar'>
@@ -21,7 +35,8 @@
                     <label for='API_IP'>Banir IP:</label><br>
                     <input type='text' name='API_IP' placeholder='192.168.100.1'><br>
                     <input type='submit' value='Enviar'><br>
-                </form><br>
+                </form>
+                <span><?php echo($result);?></span><br>
                 <button class='API_Button' onclick='Get_AllIPs()'>Mostrar todos os Ips</button>
                 <button class='API_Button' onclick='Get_IPs()'>Mostrar os ip</button>
             </div>
