@@ -1,5 +1,17 @@
-FROM node
-WORKDIR /home/node/API
-COPY . /home/node/API/
-RUN npm install
-CMD ["npm", "start"]
+# Basic
+FROM node:19
+WORKDIR /app
+
+# Update the container
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# Install the project dependencies
+COPY package.json tsconfig.json ./
+RUN yarn
+
+# Copy the project to the container.
+COPY src .
+
+# Start the container
+CMD yarn run start:prod
