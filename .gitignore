@@ -1,3 +1,7 @@
 # Folders
 node_modules
-*.yarn
+*.lock
+
+# Files
+*.txt
+*.env
