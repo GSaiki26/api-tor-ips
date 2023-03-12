@@ -5,6 +5,7 @@ import helmet from "helmet";
 import Logger from "@logger";
 import MigrationsModel from "@models/migrationsModel";
 import router from "@router";
+import IpController from "@controllers/ipController";
 
 // Data
 const PORT = process.env.PORT;
@@ -12,6 +13,8 @@ const app = express();
 
 // Code
 async function main() {
+  const logger = Logger.getLogger("SERVER");
+
   // Start the migrations.
   await MigrationsModel.up();
 
@@ -19,9 +22,11 @@ async function main() {
   app.use(helmet());
   app.use(router);
 
+  // Sync the new ips to the database.
+  await IpController.addIpsToTable(logger);
+
   // Start the server.
   app.listen(PORT, () => {
-    const logger = Logger.getLogger("SERVER");
     logger.info(`The API is online on port: ${PORT}`);
   });
 }

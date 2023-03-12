@@ -13,23 +13,17 @@ services:
     env_file:
       - ./api.env
       - ./db.env
-    ports:
-      - 3000:3000
     links:
       - restapi-torips-db
     depends_on:
       - restapi-torips-db
 
-  # restapi-torips-web:
-  #   image: php:8.0-apache
-  #   container_name: restapi-torips-web
-  #   working_dir: /var/www/html
-  #   restart: always
-  #   stdin_open: true
-  #   tty: true
-  #   volumes:
-  #     - ./Website:/var/www/html
-  #   ports:
-  #     - "8888:80"
-  #   links:
-  #     - restapi-torips-api
+  restapi-torips-web:
+    container_name: restapi-torips-web
+    build: ./web-server
+    env_file:
+      - web-server.env
+    ports:
+      - 3000:3000
+    links:
+      - restapi-torips-api
