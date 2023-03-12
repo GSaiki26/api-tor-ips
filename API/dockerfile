@@ -1,5 +1,0 @@
-FROM node
-WORKDIR /home/node/API
-COPY . /home/node/API/
-RUN npm install
-CMD ["npm", "start"]
