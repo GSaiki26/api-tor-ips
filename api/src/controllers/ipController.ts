@@ -14,7 +14,7 @@ class IpController {
    */
   public static async get(req: Request, res: Response): Promise<void> {
     // Sync the new ips to the database.
-    await this.addIpsToTable(req.logger);
+    this.addIpsToTable(req.logger);
 
     // Get the ips and the deleted ips table.
     const ipsResult = await IpsModel.get(req.logger, {
