@@ -20,22 +20,11 @@ class DanmeModel {
       logger.info("Doing request to Danme...");
       req = await axios.get(DanmeModel.DANME_URL);
     } catch (err) {
-      logger.warn("The request couldn't be completed. Reading file...");
-
-      // Read the file.
-      if (!fs.existsSync(DanmeModel.DANME_FILEPATH)) {
-        logger.error("Danme file not found.");
-        return [];
-      }
-      const results = fs.readFileSync(DanmeModel.DANME_FILEPATH);
-      return JSON.parse(results.toString("utf-8"));
+      logger.warn("The request couldn't be completed.");
+      return [];
     }
 
-    // Write the results in the danme file.
-    logger.info("Saving results in the danme file...");
     const result: string = req.data;
-    fs.writeFileSync(DanmeModel.DANME_FILEPATH, result);
-
     return result.split("\n");
   }
 }

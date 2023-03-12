@@ -9,13 +9,9 @@ const deletedIpsSchema: ModelAttributes = {
     primaryKey: true,
     autoIncrement: true,
   },
-  fk_ip_id: {
-    type: Sequelize.INTEGER,
+  ip: {
+    type: Sequelize.STRING,
     allowNull: false,
-    references: {
-      model: "ips",
-      key: "id"
-    }
   },
 };
 

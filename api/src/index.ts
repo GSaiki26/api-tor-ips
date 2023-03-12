@@ -2,8 +2,10 @@
 import express from "express";
 import helmet from "helmet";
 
-import router from "@router";
+
+import Logger from "@logger";
 import MigrationsModel from "@models/migrationsModel";
+import router from "@router";
 
 // Data
 const PORT = process.env.PORT;
@@ -20,7 +22,8 @@ async function main() {
 
   // Start the server.
   app.listen(PORT, () => {
-    console.log(`The API is online on port: ${PORT}`);
+    const logger = Logger.getLogger("SERVER");
+    logger.info(`The API is online on port: ${PORT}`);
   });
 }
 
