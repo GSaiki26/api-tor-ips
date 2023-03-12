@@ -2,6 +2,10 @@
 FROM node:19-alpine
 WORKDIR /app
 
+# Update the container
+RUN apk update
+RUN apk upgrade
+
 # Change the owner to node.
 RUN chown node /app
 USER node
