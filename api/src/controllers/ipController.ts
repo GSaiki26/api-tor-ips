@@ -13,9 +13,6 @@ class IpController {
    * GET /ip
    */
   public static async get(req: Request, res: Response): Promise<void> {
-    // Sync the new ips to the database.
-    this.addIpsToTable(req.logger);
-
     // Get the ips and the deleted ips table.
     const ipsResult = await IpsModel.get(req.logger, {
       visible: true,
@@ -33,9 +30,6 @@ class IpController {
    * GET /ip/all
    */
   public static async getAll(req: Request, res: Response): Promise<void> {
-    // Sync the new ips to the database.
-    this.addIpsToTable(req.logger);
-
     // Concat the results and return to the client.
     req.logger.info("Returning results to the client...");
     res.status(200).json({

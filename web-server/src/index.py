@@ -25,6 +25,11 @@ def get_ip():
     return IpController.get()
 
 
+@app.route('/ip/<string:ip>', methods=['DELETE'])
+def delete_ip(ip: str):
+    return IpController.delete(ip)
+
+
 @app.route('/ip/all', methods=['GET'])
 def get_ip_all():
     return IpController.getAll()
