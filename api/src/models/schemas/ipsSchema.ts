@@ -13,6 +13,10 @@ const deletedIpsSchema: ModelAttributes = {
     type: Sequelize.STRING,
     allowNull: false,
   },
+  visible: {
+    type: Sequelize.BOOLEAN,
+    allowNull: false,
+  },
 };
 
 // Code

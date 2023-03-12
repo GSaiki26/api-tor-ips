@@ -10,37 +10,60 @@ import ipsSchema from "./schemas/ipsSchema";
  * A class to represent the ip table.
  */
 class IpsModel {
-  private static IpsModel = DatabaseModel.seq.define(
-    "ips",
-    ipsSchema
-  );
+  public static ipsModel = DatabaseModel.seq.define("ips", ipsSchema);
 
   /**
-   * A method to get the all IPs.
+   * A method to get some IPs.
    */
-  public static async get(logger: winston.Logger): Promise<Model<any, any>[]> {
-    logger.info("Getting all IPs...");
-    const ipResult = await this.IpsModel.findAll();
+  public static async get(
+    logger: winston.Logger,
+    where = {}
+  ): Promise<Model<any, any>[]> {
+    logger.info("Getting some IPs...");
+    const ipResult = await this.ipsModel.findAll({
+      where: where,
+    });
 
     return ipResult;
   }
 
-  public static async add(logger: winston.Logger, entries: string[]): Promise<void> {
+  /**
+   * A method to add an ip to the ips table.
+   */
+  public static async add(
+    logger: winston.Logger,
+    entries: string[]
+  ): Promise<void> {
     // Add the ip to the database.
     logger.info("Inserting IPs to the database.");
-    entries.forEach( async (ip) => {
+    entries.forEach(async (ip) => {
       try {
-        await this.IpsModel.findOrCreate({
+        await this.ipsModel.findOrCreate({
           where: {
-            ip: ip
+            ip: ip,
           },
           defaults: {
-            ip: ip
-          }
-        })
+            ip: ip,
+            visible: true,
+          },
+        });
       } catch (err) {
-          logger.error(`Couldn't insert the ip #${ip} in the database.`);  
+        logger.error(`Couldn't insert the ip #${ip} in the database.`);
       }
+    });
+  }
+
+  /**
+   * A method to ban some ip from the database.
+   */
+  public static async ban(logger: winston.Logger, id: string): Promise<void> {
+    // Change the visibility from some ip.
+    logger.info("Changing the visibility from an ip...");
+    const ipResult = await this.get(logger, { id: id });
+    if (!ipResult.length) return;
+
+    await ipResult[0].update({
+      visible: false,
     });
   }
 
@@ -49,7 +72,7 @@ class IpsModel {
    */
   public static async sync(): Promise<void> {
     // Sync the table.
-    await this.IpsModel.sync();
+    await this.ipsModel.sync();
   }
 }
 

@@ -2,7 +2,6 @@
 import express from "express";
 import helmet from "helmet";
 
-
 import Logger from "@logger";
 import MigrationsModel from "@models/migrationsModel";
 import router from "@router";
