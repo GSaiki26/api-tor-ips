@@ -31,9 +31,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: A
-        run: ls -la web-server
-
       - name: Check packages
         uses: pypa/gh-action-pip-audit@v1.0.0
         with:
