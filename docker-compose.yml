@@ -20,16 +20,11 @@ services:
     depends_on:
       - restapi-torips-db
 
-  # restapi-torips-web:
-  #   image: php:8.0-apache
-  #   container_name: restapi-torips-web
-  #   working_dir: /var/www/html
-  #   restart: always
-  #   stdin_open: true
-  #   tty: true
-  #   volumes:
-  #     - ./Website:/var/www/html
-  #   ports:
-  #     - "8888:80"
-  #   links:
-  #     - restapi-torips-api
+  restapi-torips-web:
+    image: python3.10-alpine
+    container_name: restapi-torips-web
+    working_dir: /app
+    ports:
+      - 3000:80
+    links:
+      - restapi-torips-api
